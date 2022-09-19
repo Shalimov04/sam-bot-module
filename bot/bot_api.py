@@ -17,7 +17,7 @@ def report(instance, timestamp, text=None):
         bot.send_message(id, message)
 
 
-def check_downtime(instance):
+def check_instance(instance):
     log = Log.objects.filter(instance=instance).latest('timestamp')
     if not log.is_responding:
         logs = Log.objects.filter(instance=instance, timestamp__gte=datetime.datetime.now() - \
@@ -142,4 +142,4 @@ def check_issues():
 def search_for_issues():
     print(f'Issues search started at {datetime.datetime.now()}')
     for inst in Instance.objects.exclude(user_id='default'):
-        check_downtime(inst)
+        check_instance(inst)
